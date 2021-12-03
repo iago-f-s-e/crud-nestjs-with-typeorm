@@ -19,8 +19,8 @@
   },
   "ignorePatterns": [
     "babel.config.js", 
-    "dist", 
-    "src/modules/database/**/*.ts", 
+    "dist",
+    "src/modules/database/migrations",
     "ormconfig.js",
     "ormconfig.ts"
   ],

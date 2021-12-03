@@ -15,6 +15,7 @@ const connectionOptions: ConnectionOptions = {
   database: Settings.DATABASE_NAME,
   username: Settings.DATABASE_USER,
   password: Settings.DATABASE_PASS,
+  cache: true,
   entities: [Settings.ENTITIES],
   migrations: [Settings.MIGRATIONS],
   cli: {
