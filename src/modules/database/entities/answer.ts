@@ -1,4 +1,6 @@
+import { uuidGenerate } from '@src/modules/common/infra/utils/uuid-generate';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -33,4 +35,9 @@ export class Answer implements IAnswer {
   })
   @JoinColumn({ name: 'question_id', referencedColumnName: 'questionId' })
   public question!: Question;
+
+  @BeforeInsert()
+  protected setId(): void {
+    this.answerId = uuidGenerate();
+  }
 }

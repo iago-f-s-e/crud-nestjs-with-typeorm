@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryColumn } from 'typeorm';
+import { uuidGenerate } from '@src/modules/common/infra/utils/uuid-generate';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryColumn
+} from 'typeorm';
 import { IUser } from '../interfaces/user';
 import { Question } from './question';
 
@@ -26,4 +35,9 @@ export class User implements IUser {
 
   @OneToMany(() => Question, questions => questions.user)
   public questions!: Question[];
+
+  @BeforeInsert()
+  protected setId(): void {
+    this.userId = uuidGenerate();
+  }
 }

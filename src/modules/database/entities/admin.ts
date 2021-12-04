@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { uuidGenerate } from '@src/modules/common/infra/utils/uuid-generate';
+import { BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { IAdmin } from '../interfaces/admin';
 import { User } from './user';
 
@@ -13,4 +14,9 @@ export class Admin implements IAdmin {
   @OneToOne(() => User, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'userId' })
   public user!: User;
+
+  @BeforeInsert()
+  protected setId(): void {
+    this.adminId = uuidGenerate();
+  }
 }

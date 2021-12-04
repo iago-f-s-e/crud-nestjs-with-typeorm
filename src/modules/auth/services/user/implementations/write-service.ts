@@ -1,6 +1,6 @@
 import { ConflictException } from '@nestjs/common';
+import { SaveValidatedUser } from '@src/modules/auth/interfaces/save-user';
 import { UserCustomRepository } from '@src/modules/auth/repositories/user';
-import { SaveValidatedUser } from '@src/modules/auth/validators/save-user';
 import { User } from '@src/modules/database/entities/user';
 import { WriteServiceDTO } from '../dtos/write-service';
 

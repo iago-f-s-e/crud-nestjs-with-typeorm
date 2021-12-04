@@ -1,4 +1,6 @@
+import { uuidGenerate } from '@src/modules/common/infra/utils/uuid-generate';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -52,4 +54,9 @@ export class Question implements IQuestion {
 
   @OneToMany(() => Answer, answers => answers.question)
   public answers!: Answer[];
+
+  @BeforeInsert()
+  protected setId(): void {
+    this.questionId = uuidGenerate();
+  }
 }
