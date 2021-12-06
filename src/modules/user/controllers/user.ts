@@ -9,7 +9,7 @@ import {
   Post,
   Put
 } from '@nestjs/common';
-import { AuthorizedUser } from '@src/modules/common/guard/token';
+import { Authorized } from '@src/modules/common/guard/token';
 import { IUser } from '@src/modules/database/interfaces/user';
 import { SaveUser } from '../interfaces/save-user';
 import { UpdateUser } from '../interfaces/update-user';
@@ -32,7 +32,7 @@ export class UserController implements UserControllerDTO {
   }
 
   @Delete(':userId')
-  public inactive(@Param('userId', ParseUUIDPipe) userId: string, @AuthorizedUser() user: IUser) {
+  public inactive(@Param('userId', ParseUUIDPipe) userId: string, @Authorized() user: IUser) {
     if (!this.compareIdParams(userId, user.userId).valueOf())
       throw new BadRequestException('Invalid param');
 
@@ -43,7 +43,7 @@ export class UserController implements UserControllerDTO {
   public async update(
     @Param('userId', ParseUUIDPipe) userId: string,
     @Body() body: UpdateUser,
-    @AuthorizedUser() user: IUser
+    @Authorized() user: IUser
   ) {
     if (!this.compareIdParams(userId, user.userId).valueOf())
       throw new BadRequestException('Invalid param');

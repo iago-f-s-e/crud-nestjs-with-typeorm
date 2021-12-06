@@ -1,12 +1,12 @@
 import { createParamDecorator } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-interface UserDecorator {
+interface AuthorizedDecorator {
   args: [Request, Response];
 }
 
-export const AuthorizedUser = createParamDecorator((_, { args }: UserDecorator) => {
+export const Authorized = createParamDecorator((_, { args }: AuthorizedDecorator) => {
   const [request] = args;
 
-  return request.user;
+  return request.user || request.admin;
 });
