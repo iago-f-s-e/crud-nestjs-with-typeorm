@@ -1,7 +1,7 @@
 import { Either, left, right } from '@src/shared/either';
-import { SaveUser, SaveValidatedUser } from '../../interfaces/save-user';
 import * as Validate from './implementations';
 import * as Errors from './errors';
+import { SaveUser, SaveValidatedUser } from '../interfaces/save-user';
 
 interface Validated {
   email: Validate.Email;

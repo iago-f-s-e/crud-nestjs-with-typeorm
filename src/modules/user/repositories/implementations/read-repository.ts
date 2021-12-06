@@ -1,6 +1,6 @@
 import { User } from '@src/modules/database/entities/user';
 import { Repository } from 'typeorm';
-import { BaseRepository } from '../../base-repository';
+import { BaseRepository } from '../base-repository';
 import { ReadRepositoryDTO } from '../dtos/read-repository';
 
 export class ReadRepository extends BaseRepository<User> implements ReadRepositoryDTO {

@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { SaveUser } from '../interfaces/save-user';
-import { UserService } from '../services/user';
-import { ValidateUser } from '../validators';
+import { UserService } from '../services';
+import { ValidateUser } from '../validators/save-user';
 import { UserControllerDTO } from './dtos/user';
 
 @Controller('user')
