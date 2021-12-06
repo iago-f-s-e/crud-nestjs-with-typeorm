@@ -1,8 +1,5 @@
-import { hashPassword } from '@src/modules/common/infra';
 import { Either, left, right } from '@src/shared/either';
 import { InvalidPasswordError } from '../errors/invalid-password';
-
-type ValidatedResponse = Either<InvalidPasswordError, Password>;
 
 export class Password {
   private readonly password: string;
@@ -11,10 +8,10 @@ export class Password {
     this.password = password;
   }
 
-  public static async create(password: string, hash = hashPassword): Promise<ValidatedResponse> {
+  public static create(password: string): Either<InvalidPasswordError, Password> {
     if (!Password.validate(password)) return left(new InvalidPasswordError(password));
 
-    return right(new Password(await hash(password)));
+    return right(new Password(password));
   }
 
   public get value(): string {
