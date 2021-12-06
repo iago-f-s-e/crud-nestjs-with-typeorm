@@ -1,5 +1,4 @@
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
-import { User } from '@src/modules/database/entities/user';
 import { SaveUser } from '../interfaces/save-user';
 import { UserService } from '../services/user';
 import { ValidateUser } from '../validators';
@@ -10,7 +9,7 @@ export class UserController implements UserControllerDTO {
   constructor(private readonly userService: UserService) {}
 
   @Post('')
-  public async create(@Body() data: SaveUser): Promise<User> {
+  public async create(@Body() data: SaveUser) {
     const validatedUserOrError = await ValidateUser.create(data);
 
     if (validatedUserOrError.isLeft()) {
