@@ -10,6 +10,14 @@ export class ReadService implements ReadServiceDTO {
     return this.repository.findAll();
   }
 
+  public async findById(userId: string): Promise<ReadServiceResponse> {
+    const user = await this.repository.findById(userId);
+
+    if (!user) return left(new NotFoundException('User is not found'));
+
+    return right(user);
+  }
+
   public async findByEmail(email: string): Promise<ReadServiceResponse> {
     const user = await this.repository.findByEmail(email);
 

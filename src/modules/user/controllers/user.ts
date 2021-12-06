@@ -1,9 +1,20 @@
-import { BadRequestException, Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put
+} from '@nestjs/common';
 import { AuthorizedUser } from '@src/modules/common/guard/token';
-import { IAuthorizedUser } from '@src/modules/common/services/dtos/token-service';
+import { IUser } from '@src/modules/database/interfaces/user';
 import { SaveUser } from '../interfaces/save-user';
+import { UpdateUser } from '../interfaces/update-user';
 import { UserService } from '../services';
 import { ValidateUser } from '../validators/save-user';
+import { ValidateUpdateUser } from '../validators/update-user';
 import { UserControllerDTO } from './dtos/user';
 
 @Controller('user')
@@ -11,10 +22,25 @@ export class UserController implements UserControllerDTO {
   constructor(private readonly userService: UserService) {}
 
   @Get('')
-  public listAll(@AuthorizedUser() user: IAuthorizedUser) {
-    console.log('🚀 ~ file: user.ts ~ line 14 ~ UserController ~ listAll ~ user', user);
-
+  public listAll() {
     return this.userService.findAll();
+  }
+
+  @Put(':userId')
+  public async update(
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @Body() body: UpdateUser,
+    @AuthorizedUser() user: IUser
+  ) {
+    const updateUserOrError = ValidateUpdateUser.create(body);
+
+    if (updateUserOrError.isLeft()) {
+      throw new BadRequestException(updateUserOrError.value.message);
+    }
+
+    const data = updateUserOrError.value;
+
+    return this.userService.update(userId, data.value, user);
   }
 
   @Post('')

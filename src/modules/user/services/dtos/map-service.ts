@@ -1,6 +1,6 @@
-import { User } from '@src/modules/database/entities/user';
+import { IUser } from '@src/modules/database/interfaces/user';
 import { MappedUser } from '../../interfaces/mapped-user';
 
 export interface MapServiceDTO {
-  mapUser: (user: User) => MappedUser;
+  mapUser: (user: IUser) => MappedUser;
 }

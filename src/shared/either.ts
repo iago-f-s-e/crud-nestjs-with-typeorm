@@ -13,8 +13,7 @@ class Left<L, A> {
     return false;
   }
 }
-
-export class Right<L, A> {
+class Right<L, A> {
   public readonly value: A;
 
   constructor(value: A) {

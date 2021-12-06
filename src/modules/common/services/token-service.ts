@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@src/modules/database/entities/user';
 import { left, right } from '@src/shared/either';
 import { InvalidTokenError } from '../errors/invalid-token';
 import { IAuthorizedUser, TokenServiceDTO, VerifyTokenResponse } from './dtos/token-service';
@@ -27,8 +28,8 @@ export class TokenService implements TokenServiceDTO {
     }
   }
 
-  public generateToken(userId: string): string {
-    const payload = { userId };
+  public generateToken({ isActive, userId }: User): string {
+    const payload = { userId, isActive };
 
     return this.jwtService.sign(payload);
   }

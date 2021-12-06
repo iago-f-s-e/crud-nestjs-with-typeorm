@@ -24,9 +24,9 @@ export class AuthService implements AuthServiceDTO {
     if (!(await this.passService.compare(password, userFound.password)).valueOf())
       return left(new UnauthorizedException('Unauthorized'));
 
-    const user = this.userService.mapUser(userFound);
+    const token = this.tokenService.generateToken(userFound);
 
-    const token = this.tokenService.generateToken(user.id);
+    const user = this.userService.mapUser(userFound);
 
     return right({ user, token });
   }

@@ -4,7 +4,6 @@ import { PasswordService } from './services/password-service';
 import { TokenService } from './services/token-service';
 
 import * as Settings from '@src/server/settings';
-import { UserToken } from './middlewares/user-token';
 @Module({
   imports: [
     JwtModule.register({
@@ -12,7 +11,7 @@ import { UserToken } from './middlewares/user-token';
       signOptions: { expiresIn: Settings.AUTH_KEY_TOKEN_EXPIRES }
     })
   ],
-  exports: [PasswordService, TokenService, UserToken],
-  providers: [PasswordService, TokenService, UserToken]
+  exports: [PasswordService, TokenService],
+  providers: [PasswordService, TokenService]
 })
 export class CommonModule {}

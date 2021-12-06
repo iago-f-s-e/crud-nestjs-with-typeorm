@@ -8,5 +8,5 @@ interface UserDecorator {
 export const AuthorizedUser = createParamDecorator((_, { args }: UserDecorator) => {
   const [request] = args;
 
-  return request.authorizedUser;
+  return request.user;
 });
