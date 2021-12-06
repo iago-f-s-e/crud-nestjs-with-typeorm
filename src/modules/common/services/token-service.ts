@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { TokenServiceDTO } from '../dtos/token-service';
+import { TokenServiceDTO } from './dtos/token-service';
 
 @Injectable()
 export class TokenService implements TokenServiceDTO {
