@@ -6,6 +6,10 @@ import { ReadServiceDTO, ReadServiceResponse } from '../dtos/read-service';
 export class ReadService implements ReadServiceDTO {
   constructor(protected readonly repository: UserCustomRepository) {}
 
+  public findAll() {
+    return this.repository.findAll();
+  }
+
   public async findByEmail(email: string): Promise<ReadServiceResponse> {
     const user = await this.repository.findByEmail(email);
 

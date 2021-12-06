@@ -8,6 +8,10 @@ export class ReadRepository extends BaseRepository<User> implements ReadReposito
     super(repository);
   }
 
+  public findAll(): Promise<User[]> {
+    return this.repository.find();
+  }
+
   public findByEmail(email: string): Promise<User | undefined> {
     return this.repository.findOne({ where: { email } });
   }

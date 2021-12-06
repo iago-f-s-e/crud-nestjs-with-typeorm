@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { left, right } from '@src/shared/either';
 import { InvalidTokenError } from '../errors/invalid-token';
-import { PayloadToken, TokenServiceDTO, VerifyTokenResponse } from './dtos/token-service';
+import { IAuthorizedUser, TokenServiceDTO, VerifyTokenResponse } from './dtos/token-service';
+
+interface VerifiedToken extends IAuthorizedUser {
+  iat: number;
+  exp: number;
+}
 
 @Injectable()
 export class TokenService implements TokenServiceDTO {
@@ -14,7 +19,7 @@ export class TokenService implements TokenServiceDTO {
     const [_, token] = accessToken.split(' ');
 
     try {
-      const payload = this.jwtService.verify(token) as PayloadToken;
+      const { exp: _, iat: __, ...payload } = this.jwtService.verify(token) as VerifiedToken;
 
       return right(payload);
     } catch (_) {

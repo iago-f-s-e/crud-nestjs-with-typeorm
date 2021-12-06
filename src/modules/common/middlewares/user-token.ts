@@ -10,7 +10,7 @@ export class UserToken implements NestMiddleware {
     const payloadOrError = this.tokenService.verify(request.headers.authorization);
 
     if (payloadOrError.isLeft()) {
-      throw new UnauthorizedException(payloadOrError.value);
+      throw new UnauthorizedException(payloadOrError.value.message);
     }
 
     request.authorizedUser = payloadOrError.value;
