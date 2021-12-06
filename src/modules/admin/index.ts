@@ -10,7 +10,7 @@ import { AdminService } from './services';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Admin]), CommonModule, UserModule],
-  exports: [AuthAdmin],
+  exports: [AdminService, AuthAdmin],
   providers: [AdminService, AdminCustomRepository, AuthAdmin],
   controllers: [AdminController]
 })

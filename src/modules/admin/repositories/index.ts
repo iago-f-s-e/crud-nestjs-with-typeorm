@@ -21,7 +21,7 @@ export class AdminCustomRepository {
       .createQueryBuilder()
       .innerJoin('Admin.user', 'user')
       .where('user.userId = :userId', { userId })
-      .andWhere('user.isActive :isActive', { isActive: true })
+      .andWhere('user.isActive = :isActive', { isActive: true })
       .getOne();
   }
 }
