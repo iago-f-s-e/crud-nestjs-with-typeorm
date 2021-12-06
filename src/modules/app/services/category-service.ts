@@ -15,4 +15,8 @@ export class CategoryService {
 
     return right(await this.repository.insert(data));
   }
+
+  public findAll(): Promise<Category[]> {
+    return this.repository.findAll();
+  }
 }

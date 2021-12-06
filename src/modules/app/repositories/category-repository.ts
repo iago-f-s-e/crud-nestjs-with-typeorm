@@ -19,4 +19,12 @@ export class CategoryCustomRepository {
   public insert(data: SaveValidatedCategory): Promise<Category> {
     return this.repository.save(this.create(data));
   }
+
+  public findAll(): Promise<Category[]> {
+    return this.repository
+      .createQueryBuilder()
+      .leftJoinAndSelect('Category.questions', 'questions')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .getMany();
+  }
 }

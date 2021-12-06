@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post } from '@nestjs/common';
 import { SaveCategory } from '../interfaces/category/save-category';
 import { CategoryService } from '../services/category-service';
 import { ValidateSaveCategory } from '../validators/category/save-category';
@@ -6,6 +6,11 @@ import { ValidateSaveCategory } from '../validators/category/save-category';
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
+
+  @Get()
+  public listAll() {
+    return this.categoryService.findAll();
+  }
 
   @Post('')
   public async create(@Body() body: SaveCategory) {

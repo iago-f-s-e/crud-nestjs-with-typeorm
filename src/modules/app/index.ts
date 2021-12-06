@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from '../admin';
 import { AuthAdmin } from '../admin/middlewares/auth-admin';
@@ -15,6 +15,9 @@ import { CategoryService } from './services/category-service';
 })
 export class AppModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthAdmin).forRoutes('category');
+    consumer.apply(AuthAdmin).forRoutes({
+      method: RequestMethod.POST,
+      path: 'category'
+    });
   }
 }
