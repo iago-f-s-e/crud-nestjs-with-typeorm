@@ -1,5 +1,4 @@
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { IUser } from '@src/modules/database/interfaces/user';
 import { MappedUser } from '@src/modules/user/interfaces/mapped-user';
 import { SaveValidatedUser } from '@src/modules/user/interfaces/save-user';
 import { Either } from '@src/shared/either';
@@ -9,9 +8,6 @@ export type UpdateResponse = Either<NotFoundException | UnauthorizedException, M
 
 export interface WriteServiceDTO {
   create: (data: SaveValidatedUser) => Promise<MappedUser>;
-  update: (
-    userId: string,
-    data: UpdateValidatedUser,
-    currentUser: IUser
-  ) => Promise<UpdateResponse>;
+  inactive: (userId: string) => Promise<void>;
+  update: (userId: string, data: UpdateValidatedUser) => Promise<UpdateResponse>;
 }

@@ -15,9 +15,15 @@ import { UserService } from './services';
 })
 export class UserModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthUser).forRoutes({
-      method: RequestMethod.PUT,
-      path: 'user/*'
-    });
+    consumer.apply(AuthUser).forRoutes(
+      {
+        method: RequestMethod.PUT,
+        path: 'user/*'
+      },
+      {
+        method: RequestMethod.DELETE,
+        path: 'user/*'
+      }
+    );
   }
 }

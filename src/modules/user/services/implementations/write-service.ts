@@ -1,6 +1,5 @@
-import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException } from '@nestjs/common';
 import { PasswordService } from '@src/modules/common/services/password-service';
-import { IUser } from '@src/modules/database/interfaces/user';
 import { MappedUser } from '@src/modules/user/interfaces/mapped-user';
 import { SaveValidatedUser } from '@src/modules/user/interfaces/save-user';
 import { UserCustomRepository } from '@src/modules/user/repositories';
@@ -14,31 +13,6 @@ export class WriteService extends MapService implements WriteServiceDTO {
     super(repository);
   }
 
-  public async update(
-    userId: string,
-    data: UpdateValidatedUser,
-    currentUser: IUser
-  ): Promise<UpdateResponse> {
-    const userOrError = await this.findById(userId);
-
-    if (userOrError.isLeft()) {
-      return left(userOrError.value);
-    }
-
-    const user = userOrError.value;
-
-    if (user.userId !== currentUser.userId) {
-      return left(new UnauthorizedException('Unauthorized'));
-    }
-
-    this.repository
-      .update(userId, data)
-      .then(() => console.log('Update successfully'))
-      .catch(err => console.error(err));
-
-    return right(this.mapUser({ ...user, ...data }));
-  }
-
   public async create(data: SaveValidatedUser): Promise<MappedUser> {
     const emailExists = await this.repository.findByEmail(data.email);
 
@@ -50,5 +24,26 @@ export class WriteService extends MapService implements WriteServiceDTO {
     };
 
     return this.mapUser(await this.repository.insert(user));
+  }
+
+  public async inactive(userId: string): Promise<void> {
+    return this.repository.inactive(userId).then(() => console.log('Inactivated'));
+  }
+
+  public async update(userId: string, data: UpdateValidatedUser): Promise<UpdateResponse> {
+    const userOrError = await this.findById(userId);
+
+    if (userOrError.isLeft()) {
+      return left(userOrError.value);
+    }
+
+    const user = userOrError.value;
+
+    this.repository
+      .update(userId, data)
+      .then(() => console.log('Update successfully'))
+      .catch(err => console.error(err));
+
+    return right(this.mapUser({ ...user, ...data }));
   }
 }

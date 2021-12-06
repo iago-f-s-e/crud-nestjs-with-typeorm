@@ -18,6 +18,15 @@ export class WriteRepository extends ReadRepository implements WriteRepositoryDT
     return this.repository.save(this.create(data));
   }
 
+  public inactive(userId: string): Promise<UpdateResult> {
+    return this.repository.update(
+      { userId },
+      {
+        isActive: false
+      }
+    );
+  }
+
   public update(userId: string, data: UpdateValidatedUser): Promise<UpdateResult> {
     return this.repository.update({ userId }, data);
   }

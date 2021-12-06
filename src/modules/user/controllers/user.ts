@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -21,9 +22,21 @@ import { UserControllerDTO } from './dtos/user';
 export class UserController implements UserControllerDTO {
   constructor(private readonly userService: UserService) {}
 
+  private compareIdParams(id: string, currentId: string): boolean {
+    return id === currentId;
+  }
+
   @Get('')
   public listAll() {
     return this.userService.findAll();
+  }
+
+  @Delete(':userId')
+  public inactive(@Param('userId', ParseUUIDPipe) userId: string, @AuthorizedUser() user: IUser) {
+    if (!this.compareIdParams(userId, user.userId).valueOf())
+      throw new BadRequestException('Invalid param');
+
+    return this.userService.inactive(userId);
   }
 
   @Put(':userId')
@@ -32,6 +45,9 @@ export class UserController implements UserControllerDTO {
     @Body() body: UpdateUser,
     @AuthorizedUser() user: IUser
   ) {
+    if (!this.compareIdParams(userId, user.userId).valueOf())
+      throw new BadRequestException('Invalid param');
+
     const updateUserOrError = ValidateUpdateUser.create(body);
 
     if (updateUserOrError.isLeft()) {
@@ -40,7 +56,7 @@ export class UserController implements UserControllerDTO {
 
     const data = updateUserOrError.value;
 
-    return this.userService.update(userId, data.value, user);
+    return this.userService.update(userId, data.value);
   }
 
   @Post('')
