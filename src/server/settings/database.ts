@@ -12,4 +12,7 @@ export const ENTITIES = `${dir}/modules/database/entities/*.{ts,js}`;
 export const MIGRATIONS = `${dir}/modules/database/migrations/*.{ts,js}`;
 export const MIGRATIONS_DIR = `${dir}/modules/database/migrations`;
 
-export const MONGOOSE_URI = process.env.MONGOOSE_URI || 'mongodb://localhost:27017/crud_nestjs';
+const prodURI = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`;
+const devURI = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@localhost:${process.env.MONGO_PORT}`;
+
+export const MONGOOSE_URI = IS_PRODUCTION ? prodURI : devURI;
