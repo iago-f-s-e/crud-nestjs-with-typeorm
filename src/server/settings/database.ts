@@ -11,3 +11,5 @@ export const DATABASE_PASS = process.env.DATABASE_PASS || 'postgres';
 export const ENTITIES = `${dir}/modules/database/entities/*.{ts,js}`;
 export const MIGRATIONS = `${dir}/modules/database/migrations/*.{ts,js}`;
 export const MIGRATIONS_DIR = `${dir}/modules/database/migrations`;
+
+export const MONGOOSE_URI = process.env.MONGOOSE_URI || 'mongodb://localhost:27017/crud_nestjs';

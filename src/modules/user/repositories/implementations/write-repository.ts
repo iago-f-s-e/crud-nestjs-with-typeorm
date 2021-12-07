@@ -1,12 +1,14 @@
 import { User } from '@src/modules/database/entities/user';
+import { UserDocument } from '@src/modules/database/schemas/user';
 import { SaveValidatedUser } from '@src/modules/user/interfaces/save-user';
+import { Model } from 'mongoose';
 import { Repository, UpdateResult } from 'typeorm';
 import { UpdateValidatedUser } from '../../interfaces/update-user';
 import { WriteRepositoryDTO } from '../dtos/write-repository';
 import { ReadRepository } from './read-repository';
 
 export class WriteRepository extends ReadRepository implements WriteRepositoryDTO {
-  constructor(repository: Repository<User>) {
+  constructor(repository: Repository<User>, private readonly userModel: Model<UserDocument>) {
     super(repository);
   }
 
@@ -15,6 +17,12 @@ export class WriteRepository extends ReadRepository implements WriteRepositoryDT
   }
 
   public insert(data: SaveValidatedUser): Promise<User> {
+    const model = new this.userModel(data);
+
+    // TODO: remover exemplo
+
+    model.save().then(res => console.log(res));
+
     return this.repository.save(this.create(data));
   }
 
