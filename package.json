@@ -13,7 +13,7 @@
     "remove:orm": "test -f ormconfig.js && (echo removing ormconfig.js &&  rm ormconfig.js) || echo starting server",
     "start": "yarn build && yarn start:prod",
     "start:dev": "yarn remove:orm && ts-node-dev -r tsconfig-paths/register --respawn --inspect --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
-    "start:prod": "node dist/index.js",
+    "start:prod": "env NODE_ENV=production node dist/index.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "make": "chmod +x ./make.sh && bash make.sh",
     "prepare": "husky install",
